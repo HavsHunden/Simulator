@@ -39,11 +39,7 @@ namespace Sim1
             {
                 int randType = rand.Next(possibleTypes.Count);
 
-
-
-                Entity entity = new Entity(possibleTypes[randType]);
-
-
+                Entity entity = new Entity(possibleTypes[randType], this);
 
                 entities.Add(entity);
             }
@@ -58,11 +54,15 @@ namespace Sim1
             return answer;
         }
 
-        public static Point GetFreePosition()
+        //Finish this
+        public Point GetFreePosition()
         {
             List<Point> freePoints = new List<Point>();
 
-            
+            for (int i = 0; i < this.entities.Count ; i++)
+            {
+
+            }
 
             Point position = new Point(0, 0);
             return position;
@@ -71,15 +71,28 @@ namespace Sim1
 
     class Entity
     {
-        string type;
+        string species;
         Point position;
 
-        public Entity(string chosenType)
+        public Entity(string chosenSpecies, World world)
         {
-            Console.WriteLine(chosenType);
+            species = chosenSpecies;
+            Console.WriteLine(species);
 
-            position = World.GetFreePosition();
+            position = world.GetFreePosition();
 
+            Console.WriteLine(position);
+
+        }
+
+        public string GetSpecies()
+        {
+            return species;
+        }
+
+        public Point GetPosition()
+        {
+            return position;
         }
     }
 }
