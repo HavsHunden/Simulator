@@ -26,6 +26,7 @@ namespace Sim1
     {
         public List<Entity> entities;
         private List<string> possibleTypes = new List<string>();
+        Random rand = new Random();
 
         public World(int n, int sizeX, int sizeY)
         {
@@ -33,16 +34,26 @@ namespace Sim1
 
             possibleTypes.Add("wolf");
             possibleTypes.Add("sheep");
-            Random rand = new Random();
+            //Random rand = new Random();
 
             for (int i = 0; i < n; i++)
             {
                 int randType = rand.Next(possibleTypes.Count);
 
-                Entity entity = new Entity(possibleTypes[randType], this);
-
-                entities.Add(entity);
+                if (randType == 0)
+                {
+                    Wolf entity = new Wolf(this);
+                    entities.Add(entity);
+                }
+                if (randType == 1)
+                {
+                    Sheep entity = new Sheep(this);
+                    entities.Add(entity);
+                    entity.GetSpecies();
+                }
             }
+
+
             Console.ReadKey();
         }
 
@@ -54,29 +65,63 @@ namespace Sim1
             return answer;
         }
 
-        //Finish this
         public Point GetFreePosition()
         {
-            List<Point> freePoints = new List<Point>();
-
-            for (int i = 0; i < this.entities.Count ; i++)
-            {
-
-            }
+            bool redo = true;
+            //Random rand = new Random();
 
             Point position = new Point(0, 0);
+
+            while (redo)
+            {
+                redo = false;
+
+                position.X = rand.Next(100);
+                position.Y = rand.Next(100);
+
+                //Console.WriteLine("Test");
+
+                for (int i = 0; i < this.entities.Count; i++)
+                {
+                    if (this.entities[i].GetPosition() == position)
+                    {
+                        Console.WriteLine("Regenerating position");
+                        redo = true;
+                        break;
+                    }
+                }
+            }
+
             return position;
+        }
+
+        public List<Entity> GetEntityAtPosition(Point pointOfInterest)
+        {
+
+            List<Entity> returnList;
+            for (int i = 0; i < entities.Count; i++)
+            {
+                if (entities[i].GetPosition() == pointOfInterest)
+                {
+                    returnList.Add(entities[i]);
+                }
+            }
+
+            return e;
         }
     }
 
     class Entity
     {
         string species;
-        Point position;
+        Point position
+        //{
+        //    get; set;
+        //}
+        ;
 
-        public Entity(string chosenSpecies, World world)
+        public Entity(World world)
         {
-            species = chosenSpecies;
             Console.WriteLine(species);
 
             position = world.GetFreePosition();
@@ -90,9 +135,49 @@ namespace Sim1
             return species;
         }
 
+        public void SetSpecies(string input)
+        {
+            species = input;
+        }
+
         public Point GetPosition()
         {
             return position;
+        }
+
+        public void SetPosition(int x, int y)
+        {
+            position.X = x;
+            position.Y = y;
+        }
+
+        public void SetPosition(Point point)
+        {
+            position = point;
+        }
+    }
+
+    class Wolf : Entity
+    {
+        string species = "wolf";
+
+        public Wolf(World world) : base(world)
+        {
+            this.SetPosition(world.GetFreePosition());
+            this.SetSpecies(species);
+            Console.WriteLine("New " + species);
+        }
+    }
+
+    class Sheep : Entity
+    {
+        string species = "sheep";
+
+        public Sheep(World world) : base(world)
+        {
+            this.SetPosition(world.GetFreePosition());
+            this.SetSpecies(species);
+            Console.WriteLine("New " + species);
         }
     }
 }
