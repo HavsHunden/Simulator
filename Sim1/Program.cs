@@ -53,6 +53,12 @@ namespace Sim1
                 }
             }
 
+            while (true)
+            {
+                Tick();
+                Console.ReadKey();
+            }
+
 
             Console.ReadKey();
         }
@@ -63,6 +69,14 @@ namespace Sim1
             Point answer = new Point();
 
             return answer;
+        }
+
+        public void Tick()
+        {
+            for (int i = 0; i < entities.Count; i++)
+            {
+                entities[i].Eat();
+            }
         }
 
         public Point GetFreePosition()
@@ -95,19 +109,68 @@ namespace Sim1
             return position;
         }
 
-        public List<Entity> GetEntityAtPosition(Point pointOfInterest)
+        //Finish this
+
+        public List<Entity> GetSurroundingEntities(Point pointOfInterest)
+        {
+            List<Entity> returnList = new List<Entity>();
+
+            List<Point> allPointsOfInterest = new List<Point>();
+
+            Point p = new Point();
+
+            p = pointOfInterest;
+            p.Offset(1, 0);
+            allPointsOfInterest.Add(p);
+            p = pointOfInterest;
+            p.Offset(1, 1);
+            allPointsOfInterest.Add(p);
+            p = pointOfInterest;
+            p.Offset(0, 1);
+            allPointsOfInterest.Add(p);
+            p = pointOfInterest;
+            p.Offset(-1, 1);
+            allPointsOfInterest.Add(p);
+            p = pointOfInterest;
+            p.Offset(-1, 0);
+            allPointsOfInterest.Add(p);
+            p = pointOfInterest;
+            p.Offset(-1, -1);
+            allPointsOfInterest.Add(p);
+            p = pointOfInterest;
+            p.Offset(0, -1);
+            allPointsOfInterest.Add(p);
+            p.Offset(1, -1);
+            allPointsOfInterest.Add(p);
+
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                for (int j = 0; j < allPointsOfInterest.Count; j++)
+                {
+                    if (entities[i].GetPosition() == allPointsOfInterest[j])
+                    {
+                        returnList.Add(entities[i]);
+                    }
+                }
+            }
+
+            return returnList;
+        }
+
+        public Entity GetEntityAtPosition(Point pointOfInterest)
         {
 
-            List<Entity> returnList;
+            Entity returnEntity = null;
             for (int i = 0; i < entities.Count; i++)
             {
                 if (entities[i].GetPosition() == pointOfInterest)
                 {
-                    returnList.Add(entities[i]);
+                    returnEntity = entities[i];
                 }
             }
 
-            return e;
+            return returnEntity;
         }
     }
 
@@ -155,17 +218,59 @@ namespace Sim1
         {
             position = point;
         }
+
+        public virtual void Eat()
+        {
+
+        }
+
+        public void Move()
+        {
+            
+        }
     }
 
     class Wolf : Entity
     {
         string species = "wolf";
 
+        World myWorld;
+
         public Wolf(World world) : base(world)
         {
+            myWorld = world;
             this.SetPosition(world.GetFreePosition());
             this.SetSpecies(species);
             Console.WriteLine("New " + species);
+        }
+
+        public override void Eat()
+        {
+            //Console.WriteLine("eatmethod");
+
+            List<Entity> nearbyEntities = new List<Entity>();
+
+            nearbyEntities = myWorld.GetSurroundingEntities(this.GetPosition());
+
+
+            //If there are no nearby entities, do nothing, otherwise...
+            if (nearbyEntities.Count == 0)
+            {
+
+            }
+            else
+            {
+                //Look at all nearby entities - if they are sheep, remove them from the world's list
+                for (int i = 0; i < nearbyEntities.Count; i++)
+                {
+                    if (nearbyEntities[i].GetSpecies() == "sheep")
+                    {
+                        myWorld.entities.Remove(nearbyEntities[i]);
+
+                        Console.WriteLine("A sheep was eaten at " + this.GetPosition() + "!!!");
+                    }
+                }
+            }
         }
     }
 
