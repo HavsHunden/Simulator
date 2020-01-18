@@ -58,9 +58,6 @@ namespace Sim1
                 Tick();
                 Console.ReadKey();
             }
-
-
-            Console.ReadKey();
         }
 
         public void Tick()
@@ -68,6 +65,7 @@ namespace Sim1
             for (int i = 0; i < entities.Count; i++)
             {
                 entities[i].Eat();
+                entities[i].Move();
             }
         }
 

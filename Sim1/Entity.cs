@@ -118,6 +118,7 @@ namespace Sim1
             }
             else
             {
+                Point oldPosition = this.GetPosition();
                 bool redo;
                 Point chosenPoint;
 
@@ -126,7 +127,7 @@ namespace Sim1
                     redo = false;
                     int choiseY = myWorld.BorrowRand().Next(2) - 1;
                     int choiseX = myWorld.BorrowRand().Next(2) - 1;
-                    chosenPoint = new Point(choiseX, choiseY);
+                    chosenPoint = new Point(this.GetPosition().X + choiseX, this.GetPosition().Y + choiseY);
 
                     for (int i = 0; i < surroundingEntities.Count; i++)
                     {
@@ -138,7 +139,10 @@ namespace Sim1
                     }
                 } while (redo == true);
 
+
+
                 this.SetPosition(chosenPoint);
+                Console.WriteLine("Trying to move from" + oldPosition + "to" + this.GetPosition());
 
             }
 
