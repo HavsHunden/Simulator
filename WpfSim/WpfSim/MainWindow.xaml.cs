@@ -27,9 +27,11 @@ namespace WpfSim
             //Console.WriteLine("How many entities?");
             //int n = Convert.ToInt32(Console.ReadLine());
 
+            
+
             int n = 100;
 
-            World world = new World(n, 100, 100);
+            World world = new World(n, myGrid);
         }
     }
 
@@ -39,9 +41,13 @@ namespace WpfSim
         private List<string> possibleTypes = new List<string>();
         Random rand = new Random();
 
-        public World(int n, int sizeX, int sizeY)
+        public World(int n, Grid grid)
         {
             entities = new List<Entity>();
+
+            //Console.WriteLine(grid.RowDefinitions.Count());
+
+            //grid.RowDefinitions[1].
 
             possibleTypes.Add("wolf");
             possibleTypes.Add("sheep");
