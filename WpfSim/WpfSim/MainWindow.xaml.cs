@@ -40,10 +40,20 @@ namespace WpfSim
         public List<Entity> entities;
         private List<string> possibleTypes = new List<string>();
         Random rand = new Random();
+        Grid myGrid;
 
         public World(int n, Grid grid)
         {
             entities = new List<Entity>();
+            myGrid = grid;
+            Label test;
+            if (myGrid.Children[1] is Label)
+            {
+                test = (Label)myGrid.Children[1];
+                test.Content = "wow";
+            }
+
+            
 
             //Console.WriteLine(grid.RowDefinitions.Count());
 
@@ -69,11 +79,13 @@ namespace WpfSim
                     entity.GetSpecies();
                 }
             }
+            bool tick= true;
 
-            while (true)
+            while (tick)
             {
                 Tick();
                 //Console.ReadKey();
+                tick = false;
             }
         }
 
@@ -84,6 +96,11 @@ namespace WpfSim
                 entities[i].Eat();
                 entities[i].Move();
             }
+        }
+
+        public Grid GetGrid()
+        {
+            return myGrid;
         }
 
         public Point GetFreePosition()
@@ -220,13 +237,15 @@ namespace WpfSim
 
         public void SetPosition(int x, int y)
         {
-            position.X = x;
-            position.Y = y;
+            Point tempPoint = new Point(x, y);
+
+            SetPosition(tempPoint);
         }
 
         public void SetPosition(Point point)
         {
             position = point;
+
         }
 
         public virtual void Eat()
