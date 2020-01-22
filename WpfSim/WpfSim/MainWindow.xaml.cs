@@ -29,7 +29,7 @@ namespace WpfSim
 
             
 
-            int n = 100;
+            int n = 10;
 
             World world = new World(n, myGrid);
         }
@@ -41,23 +41,14 @@ namespace WpfSim
         private List<string> possibleTypes = new List<string>();
         Random rand = new Random();
         Grid myGrid;
+        public Label[][] gridLabels;
 
         public World(int n, Grid grid)
         {
             entities = new List<Entity>();
             myGrid = grid;
-            Label test;
-            if (myGrid.Children[1] is Label)
-            {
-                test = (Label)myGrid.Children[1];
-                test.Content = "wow";
-            }
 
-            
-
-            //Console.WriteLine(grid.RowDefinitions.Count());
-
-            //grid.RowDefinitions[1].
+            ConnectGraphics();
 
             possibleTypes.Add("wolf");
             possibleTypes.Add("sheep");
@@ -79,13 +70,13 @@ namespace WpfSim
                     entity.GetSpecies();
                 }
             }
-            bool tick= true;
+            int tick= 0;
 
-            while (tick)
+            while (tick < 10)
             {
                 Tick();
-                //Console.ReadKey();
-                tick = false;
+                System.Threading.Thread.Sleep(1000);
+                tick++;
             }
         }
 
@@ -95,6 +86,35 @@ namespace WpfSim
             {
                 entities[i].Eat();
                 entities[i].Move();
+            }
+        }
+
+        public Label[][] GetLabels()
+        {
+            return gridLabels;
+        }
+
+        private void ConnectGraphics()
+        {
+            Label test;
+
+            gridLabels = new Label[10][];
+
+            //Initializing my jagged array gridLabels
+            for (int i = 0; i < 10; i++)
+            {
+                gridLabels[i] = new Label[10];
+            }
+
+            //Adding all labels in grid to the jagged aarray
+            for (int i = 0; i < myGrid.Children.Count; i++)
+            {
+                if (myGrid.Children[i] is Label)
+                {
+                    test = (Label)myGrid.Children[i];
+
+                    gridLabels[Grid.GetRow(test)][Grid.GetColumn(test)] = test;
+                }
             }
         }
 
@@ -114,8 +134,8 @@ namespace WpfSim
             {
                 redo = false;
 
-                position.X = rand.Next(100);
-                position.Y = rand.Next(100);
+                position.X = rand.Next(10);
+                position.Y = rand.Next(10);
 
                 //Console.WriteLine("Test");
 
@@ -203,24 +223,18 @@ namespace WpfSim
 
     class Entity
     {
-        string species;
-        Point position;
-
-        World myWorld;
+        protected string species;
+        protected Point position;
+        protected World myWorld;
 
         public Entity(World world)
         {
-            Console.WriteLine(species);
-
-            position = world.GetFreePosition();
-
-            Console.WriteLine(position);
-
             myWorld = world;
-
+            Console.WriteLine(species);
+            Console.WriteLine(position);
         }
 
-        public string GetSpecies()
+        public virtual string GetSpecies()
         {
             return species;
         }
@@ -244,7 +258,15 @@ namespace WpfSim
 
         public void SetPosition(Point point)
         {
+            Console.WriteLine(myWorld.GetLabels().Length);
+
+            int x = (int)point.X;
+            int y = (int)point.Y;
+
+            myWorld.gridLabels[x][y].Content = species;
+
             position = point;
+
 
         }
 
@@ -262,16 +284,11 @@ namespace WpfSim
 
     class Wolf : Entity
     {
-        string species = "wolf";
-
-        World myWorld;
-
         public Wolf(World world) : base(world)
         {
-            myWorld = world;
-            this.SetPosition(world.GetFreePosition());
-            this.SetSpecies(species);
+            this.SetSpecies("wolf");
             Console.WriteLine("New " + species);
+            this.SetPosition(myWorld.GetFreePosition());
         }
 
         public override void Eat()
@@ -303,6 +320,12 @@ namespace WpfSim
             }
         }
 
+        public override string GetSpecies()
+        {
+            return species;
+        }
+
+        //Move needs to only send these entities to valid spots (ie, not off game board)
         public override void Move()
         {
             List<Entity> surroundingEntities = new List<Entity>();
@@ -338,6 +361,7 @@ namespace WpfSim
 
 
                 this.SetPosition(chosenPoint);
+
                 Console.WriteLine("Trying to move from" + oldPosition + "to" + this.GetPosition());
 
             }
@@ -349,13 +373,16 @@ namespace WpfSim
 
     class Sheep : Entity
     {
-        string species = "sheep";
-
         public Sheep(World world) : base(world)
         {
-            this.SetPosition(world.GetFreePosition());
-            this.SetSpecies(species);
+            this.SetSpecies("sheep");
             Console.WriteLine("New " + species);
+            this.SetPosition(myWorld.GetFreePosition());
+        }
+
+        public override string GetSpecies()
+        {
+            return species;
         }
     }
 }

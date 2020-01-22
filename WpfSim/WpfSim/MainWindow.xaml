@@ -101,6 +101,36 @@
         <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6" Grid.Column="7"/>
         <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6" Grid.Column="8"/>
         <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6" Grid.Column="9"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="0"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="1"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="2"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="3"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="4"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="5"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="6"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="7"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="8"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="7" Grid.Column="9"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="0"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="1"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="2"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="3"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="4"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="5"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="6"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="7"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="8"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="8" Grid.Column="9"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="0"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="1"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="2"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="3"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="4"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="5"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="6"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="7"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="8"/>
+        <Label Content="Label" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="9" Grid.Column="9"/>
 
 
     </Grid>
