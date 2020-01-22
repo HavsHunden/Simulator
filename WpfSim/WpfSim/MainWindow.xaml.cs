@@ -24,11 +24,6 @@ namespace WpfSim
         {
             InitializeComponent();
 
-            //Console.WriteLine("How many entities?");
-            //int n = Convert.ToInt32(Console.ReadLine());
-
-            
-
             int n = 10;
 
             World world = new World(n, myGrid);
@@ -70,22 +65,28 @@ namespace WpfSim
                     entity.GetSpecies();
                 }
             }
-            int tick= 0;
 
-            while (tick < 10)
-            {
-                Tick();
-                System.Threading.Thread.Sleep(1000);
-                tick++;
-            }
+            Start();
+
+            //while (tick < 2)
+            //{
+            //    Tick();
+            //    System.Threading.Thread.Sleep(1000);
+            //    tick++;
+            //}
         }
 
-        public void Tick()
+        public void Start()
         {
-            for (int i = 0; i < entities.Count; i++)
+            int tick = 0;
+            while (tick < 2)
             {
-                entities[i].Eat();
-                entities[i].Move();
+                for (int i = 0; i < entities.Count; i++)
+                {
+                    entities[i].Eat();
+                    entities[i].Move();
+                }
+                tick++;
             }
         }
 
@@ -116,6 +117,8 @@ namespace WpfSim
                     gridLabels[Grid.GetRow(test)][Grid.GetColumn(test)] = test;
                 }
             }
+
+            Console.WriteLine("gridlables length: " + gridLabels.Length);
         }
 
         public Grid GetGrid()
@@ -137,7 +140,7 @@ namespace WpfSim
                 position.X = rand.Next(10);
                 position.Y = rand.Next(10);
 
-                //Console.WriteLine("Test");
+                //Console.WriteLine("Test: " + position);
 
                 for (int i = 0; i < this.entities.Count; i++)
                 {
@@ -151,6 +154,32 @@ namespace WpfSim
             }
 
             return position;
+        }
+
+        public List<Point> GetSurroundingPositions(Point pointOfInterest)
+        {
+            List<Point> returnList = new List<Point>();
+
+            Point testPoint = pointOfInterest;
+
+            for (int i = -1; i < 2; i++)
+            {
+                for (int j = -1; j < 2; j++)
+                {
+                    testPoint.Offset(i, j);
+                    if(testPoint.X == 0 && testPoint.Y == 0)
+                    {
+
+                    }
+                    else if (testPoint.X > 9 || testPoint.Y > 9)
+                    {
+                        returnList.Add(testPoint);
+                    }
+
+                }
+            }
+
+            return returnList;
         }
 
         public List<Entity> GetSurroundingEntities(Point pointOfInterest)
@@ -231,7 +260,6 @@ namespace WpfSim
         {
             myWorld = world;
             Console.WriteLine(species);
-            Console.WriteLine(position);
         }
 
         public virtual string GetSpecies()
@@ -258,7 +286,7 @@ namespace WpfSim
 
         public void SetPosition(Point point)
         {
-            Console.WriteLine(myWorld.GetLabels().Length);
+            //Console.WriteLine(point);
 
             int x = (int)point.X;
             int y = (int)point.Y;
@@ -328,7 +356,8 @@ namespace WpfSim
         //Move needs to only send these entities to valid spots (ie, not off game board)
         public override void Move()
         {
-            List<Entity> surroundingEntities = new List<Entity>();
+            List<Point> surroundingPoints;
+            List<Entity> surroundingEntities;
             surroundingEntities = this.myWorld.GetSurroundingEntities(this.GetPosition());
 
             if (surroundingEntities.Count == 8)
@@ -340,6 +369,9 @@ namespace WpfSim
                 Point oldPosition = this.GetPosition();
                 bool redo;
                 Point chosenPoint;
+                surroundingPoints = myWorld.GetSurroundingPositions(oldPosition);
+                bool allowedMovement = false;
+
 
                 do
                 {
@@ -348,9 +380,19 @@ namespace WpfSim
                     int choiseX = myWorld.BorrowRand().Next(2) - 1;
                     chosenPoint = new Point(this.GetPosition().X + choiseX, this.GetPosition().Y + choiseY);
 
+
+
+                    for (int i = 0; i < surroundingPoints.Count; i++)
+                    {
+                        if (chosenPoint == surroundingPoints[i])
+                        {
+                            allowedMovement = true;
+                        }
+                    }
+
                     for (int i = 0; i < surroundingEntities.Count; i++)
                     {
-                        if (surroundingEntities[i].GetPosition() == chosenPoint)
+                        if (surroundingEntities[i].GetPosition() == chosenPoint || allowedMovement == false)
                         {
                             redo = true;
                             break;
