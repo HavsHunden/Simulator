@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WpfSim
 {
@@ -66,27 +67,19 @@ namespace WpfSim
                 }
             }
 
-            Start();
-
-            //while (tick < 2)
-            //{
-            //    Tick();
-            //    System.Threading.Thread.Sleep(1000);
-            //    tick++;
-            //}
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = new TimeSpan(0, 0, 1);
+            timer.Tick += Tick;
+            timer.Start();
         }
 
-        public void Start()
+        public void Tick(object sender, EventArgs e)
         {
-            int tick = 0;
-            while (tick < 2)
+            Console.WriteLine("entered tick");
+
+            for (int i = 0; i < entities.Count; i++)
             {
-                for (int i = 0; i < entities.Count; i++)
-                {
-                    entities[i].Eat();
-                    entities[i].Move();
-                }
-                tick++;
+                entities[i].Eat();
             }
         }
 
